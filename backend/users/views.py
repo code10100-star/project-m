@@ -1,3 +1,4 @@
+from email import message
 from django.shortcuts import render
 
 # Create your views here.
@@ -17,6 +18,8 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
 from rest_framework.authentication import TokenAuthentication
+
+from .forms import CustomUserCreationForm
 
 
 
@@ -79,3 +82,33 @@ def example_view(request, format=None):
         'auth': str(request.auth),  # None
     }
     return Response(content)
+
+@api_view(['POST'])
+def registerUser(request):
+    page = 'register'
+    form = CustomUserCreationForm()
+    # print(request)
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        print(request.POST['Name'])
+        print(request.POST['email'])
+        print(request.POST['username'])
+        print(request.POST['password1'])
+        print(request.POST['password2'])
+
+        if form.is_valid():
+            print('print something')
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+
+            messages.success(request, 'User account was created!')
+
+            return Response('message')
+
+        else:
+            messages.success(request, 'An error has occurred during registration')
+            
+
+    context = {'page': page, 'form': form}
+    return Response('message')

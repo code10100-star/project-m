@@ -90,25 +90,24 @@ def registerUser(request):
     # print(request)
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
-        print(request.POST['Name'])
-        print(request.POST['email'])
-        print(request.POST['username'])
-        print(request.POST['password1'])
-        print(request.POST['password2'])
+        # print(request.POST['Name'])
+        # print(request.POST['email'])
+        # print(request.POST['username'])
+        # print(request.POST['password1'])
+        # print(request.POST['password2'])
 
         if form.is_valid():
-            print('print something')
+            # print('print something')
             user = form.save(commit=False)
             user.username = user.username.lower()
             user.save()
 
             messages.success(request, 'User account was created!')
 
-            return Response('message')
+            return Response('User account was created!')
 
         else:
-            messages.success(request, 'An error has occurred during registration')
+            messages.error(request, 'An error has occurred during registration')
             
+    return Response('An error has occurred during registration')
 
-    context = {'page': page, 'form': form}
-    return Response('message')

@@ -4,8 +4,8 @@ import './App.css';
 const App = () => {
 
   const [fullname,setfullName] = useState({
-    fname : "",
-    lname : "",
+    username : "",
+    password : "",
   });
 
   const [newset,setnewset] = useState();
@@ -15,24 +15,49 @@ const App = () => {
     const name = event.target.name;
 
     setfullName((preValue)=>{
-        if(name === "fname"){
+        if(name === "username"){
           return{
-            fname:val,
-            lname:preValue.lname,
+            username:val,
+            password:preValue.password,
           };
         }
-        else if(name === "lname"){
+        else if(name === "password"){
           return{
-            fname:preValue.fname,
-            lname:val,
+            username:preValue.username,
+            password:val,
           };
         }
     });
   }
-
+  
   const onSubmit = (e) =>{
     e.preventDefault();
-    setnewset(fullname.fname+" "+fullname.lname);
+    setnewset(fullname.username+" "+fullname.password);
+    console.log(JSON.stringify({
+      username: fullname.username,
+      password: fullname.password
+    }))
+    fetch("http://127.0.0.1:8000/auth/", {
+      "method": "POST",
+      "headers": {
+        "content-type": "application/json",
+        "accept": "application/json"
+      },
+      "body": JSON.stringify({
+        username: fullname.username,
+        password: fullname.password
+      })
+    })
+    .then(response => response.json())
+    .then(response => {
+      // this.setState({
+      //   friends: response
+      // })
+      console.log(response)
+    })
+    .catch(err => { console.log(err); 
+    });
+    
   }
   return(
         <>
@@ -41,15 +66,15 @@ const App = () => {
           <h1 id='hh'>Hello {newset}</h1>
           <div id='demo'>
           <input  className="input-box" type="text" autoComplete="off" placeholder="Enter your first name"
-          name='fname'
+          name='username'
           onChange={inChange}
-          value={fullname.fname}
+          value={fullname.username}
           />
           <div>
-          <input className="input-box" type="text" placeholder="Enter your last name"
-          name='lname'
+          <input className="input-box" type="password" placeholder="Enter your last name"
+          name='password'
           onChange={inChange}
-          value={fullname.lname}
+          value={fullname.password}
           />
           <button className="myButton" onClick={onSubmit}>Submit</button>
           </div>

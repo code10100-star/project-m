@@ -19,7 +19,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
 from rest_framework.authentication import TokenAuthentication
 
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm,OwnerProfileForm
 
 
 
@@ -111,3 +111,17 @@ def registerUser(request):
             
     return Response('An error has occurred during registration')
 
+# @login_required(login_url='login')
+def editAccount(request):
+    owner = request.user.owner
+    form = OwnerProfileForm(instance=owner)
+
+    if request.method == 'POST':
+        form = OwnerProfileForm(request.POST, request.FILES, instance=owner)
+        if form.is_valid():
+            form.save()
+
+            return redirect('account')
+
+    context = {'form': form}
+    return render(request, 'users/profile_form.html', context)

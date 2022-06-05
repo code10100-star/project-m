@@ -1,0 +1,84 @@
+.App {
+  text-align: center;
+}
+
+#demotext {
+  color: #ffffff;
+  background: #b8b8b8;
+  text-shadow: 4px 3px 0 #7a7a7a;
+  color: #ffffff;
+  background: #b8b8b8;
+  font-size: 50px;
+  padding: 5px;
+}
+
+.myButton {
+  box-shadow: 0px 1px 0px 0px #fff6af;
+  background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+  background-color: #ffec64;
+  border-radius: 10px;
+  border: 1px solid #ffaa22;
+  display: inline-block;
+  cursor: pointer;
+  color: #333333;
+  font-family: Arial;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 6px 24px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #ffee66;
+}
+.myButton:hover {
+  background: linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+  background-color: #ffab23;
+}
+.myButton:active {
+  position: relative;
+  top: 1px;
+}
+
+.input-box {
+  padding: 10px;
+  border-radius: 15px;
+  font-size: 20px;
+  border-width: 2px;
+  border-color: #cccccc;
+  border-style: solid;
+  background-color: #f987c5;
+}
+
+#demo {
+  width: 500px;
+  height: 300px;
+  padding: 3em;
+  display: inline-block;
+  text-align: left;
+  -webkit-box-shadow: 0px 10px 13px -7px #000000,
+    5px 5px 15px 5px rgba(0, 0, 0, 0);
+  background-color: #14e8ff;
+  box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
+}
+
+h1{
+  text-align: center;
+  font-size: 50px;
+}
+
+body{
+  background-color: #2eeaff;
+  text-align: center;
+}
+
+input{
+  display: block;
+  margin: 5px;
+  text-align: left;
+}
+
+button{
+  margin-left: 50px;
+  block-size: 30px;
+  border-radius:10px;
+  background-color: yellow;
+  border-width:2px;
+}

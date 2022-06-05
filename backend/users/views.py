@@ -6,8 +6,8 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
 # from backend.users import serializers
-from users.models import Profile
-from users.serializers import ProfileSerializer, UserSerializer, GroupSerializer
+from users.models import Profile, Customer, Owner
+from users.serializers import ProfileSerializer, UserSerializer, GroupSerializer, CustomerSerializer, OwnerSerializer
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -110,4 +110,16 @@ def registerUser(request):
             messages.error(request, 'An error has occurred during registration')
             
     return Response('An error has occurred during registration')
+
+@api_view(['GET'])
+def getCustomers(request,pk):
+    customers = Customer.objects.filter(owner=pk)
+    serializer = CustomerSerializer(customers, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getOwners(request):
+    owners = Owner.objects.all()
+    serializer = OwnerSerializer(owners, many=True)
+    return Response(serializer.data)
 

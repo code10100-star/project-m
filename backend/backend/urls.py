@@ -41,6 +41,9 @@ urlpatterns = [
     path('example/', views.example_view),
     # path('login/', views.loginUser),
     path('register/', views.registerUser, name="register"),
+    path('owners/', views.getOwners, name="owners"),
+    path('customers/<str:pk>/', views.getCustomers, name="customers"),
+
 
     
 ]

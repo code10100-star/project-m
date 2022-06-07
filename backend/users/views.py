@@ -67,6 +67,10 @@ def getRoutes(request):
     routes = [
         {'GET': '/api/profiles'},
         {'GET': '/api/profile/id'},
+        {'GET': '/api/customers/id'},
+        {'GET': '/api/owners/'},
+        {'GET': '/api/resgister/'},
+        {'GET': '/api/auth/'},
 
         # {'POST': '/api/users/token'},
         # {'POST': '/api/users/token/refresh'},

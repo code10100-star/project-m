@@ -79,7 +79,6 @@ def getRoutes(request):
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication, TokenAuthentication])
-@permission_classes([IsAuthenticated])
 def example_view(request, format=None):
     content = {
         'user': str(request.user),  # `django.contrib.auth.User` instance.
@@ -116,6 +115,7 @@ def registerUser(request):
     return Response('An error has occurred during registration')
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication, TokenAuthentication])
 def getCustomers(request,pk):
     customers = Customer.objects.filter(owner=pk)
     serializer = CustomerSerializer(customers, many=True)
@@ -126,4 +126,6 @@ def getOwners(request):
     owners = Owner.objects.all()
     serializer = OwnerSerializer(owners, many=True)
     return Response(serializer.data)
+
+
 

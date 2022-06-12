@@ -8,6 +8,7 @@ import Contact from "./Components/Contact"
 import Signin from "./Components/Signin"
 import Register from "./Components/Signup"
 import Profile from"./Components/Profile"
+import Signup from './Components/Signup'
 
 const App = () => {
   return (
@@ -20,7 +21,7 @@ const App = () => {
     <Route path="/" element={<Home />} />
     <Route path="/about" element={<About />} />
     <Route path="/contact" element={<Contact />} />
-    <Route path="/signup" element={<Register />} />
+    <Route path="/signup" element={<Signup />} />
     <Route path="/signin" element={<Signin />} />
     <Route path="/profile" element={<Profile />} />
 

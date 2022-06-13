@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import AuthService from '../Services/AuthService';
 import '../App.css';
 
 const Signin = () => {
 
-  const [fullname,setfullName] = useState({
+  const [credentials,setCredentials] = useState({
     username : "",
     password : "",
   });
@@ -14,7 +15,7 @@ const Signin = () => {
     const val = event.target.value;
     const name = event.target.name;
 
-    setfullName((preValue)=>{
+    setCredentials((preValue)=>{
         if(name === "username"){
           return{
             username:val,
@@ -32,31 +33,9 @@ const Signin = () => {
   
   const onSubmit = (e) =>{
     e.preventDefault();
-    setnewset(fullname.username+" "+fullname.password);
-    console.log(JSON.stringify({
-      username: fullname.username,
-      password: fullname.password
-    }))
-    fetch("http://127.0.0.1:8000/auth/", {
-      "method": "POST",
-      "headers": {
-        "content-type": "application/json",
-        "accept": "application/json"
-      },
-      "body": JSON.stringify({
-        username: fullname.username,
-        password: fullname.password
-      })
-    })
-    .then(response => response.json())
-    .then(response => {
-      // this.setState({
-      //   friends: response
-      // })
-      console.log(response)
-    })
-    .catch(err => { console.log(err); 
-    });
+    setnewset(credentials.username+" "+credentials.password);
+
+    AuthService.login(JSON.stringify(credentials))
     
   }
   return(
@@ -68,13 +47,13 @@ const Signin = () => {
           <input  className="input-box" type="text" autoComplete="off" placeholder="Enter your first name"
           name='username'
           onChange={inChange}
-          value={fullname.username}
+          value={credentials.username}
           />
           <div>
           <input className="input-box" type="password" placeholder="Enter your last name"
           name='password'
           onChange={inChange}
-          value={fullname.password}
+          value={credentials.password}
           />
           <button className="myButton" onClick={onSubmit}>Submit</button>
           </div>

@@ -4,10 +4,10 @@ from django.shortcuts import render
 # Create your views here.
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
-from rest_framework import permissions
+from rest_framework import permissions,status
 # from backend.users import serializers
 from users.models import Profile, Customer, Owner
-from users.serializers import ProfileSerializer, UserSerializer, GroupSerializer, CustomerSerializer, OwnerSerializer
+from users.serializers import ProfileSerializer, UserSerializer, GroupSerializer, CustomerSerializer, OwnerSerializer, RegisterSerializer
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -20,7 +20,8 @@ from django.shortcuts import render, redirect
 from rest_framework.authentication import TokenAuthentication
 
 from .forms import CustomUserCreationForm
-
+import json
+# import status
 
 
 # @api_view(['GET'])
@@ -88,31 +89,49 @@ def example_view(request, format=None):
 
 @api_view(['POST'])
 def registerUser(request):
-    page = 'register'
-    form = CustomUserCreationForm()
-    # print(request)
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        # print(request.POST['Name'])
-        # print(request.POST['email'])
-        # print(request.POST['username'])
-        # print(request.POST['password1'])
-        # print(request.POST['password2'])
+    # page = 'register'
+    # # print(request.body)
+    # # print(request.POST)
+    # form = CustomUserCreationForm()
+    
+    
+    # if request.method == 'POST':
+    #     data = request.body
+    #     data = json.loads(data.decode("utf-8")) 
+    #     # print(data['Name'])
+    #     form = CustomUserCreationForm(data)
+    #     # print(data['Name'])
+    #     # print(request.POST['email'])
+    #     # print(request.POST['username'])
+    #     # print(request.POST['password1'])
+    #     # print(request.POST['password2'])
+    #     print(data)
+    #     print(form)
 
-        if form.is_valid():
-            # print('print something')
-            user = form.save(commit=False)
-            user.username = user.username.lower()
-            user.save()
+    #     if form.is_valid():
+    #         print('print something')
+    #         user = form.save(commit=False)
+    #         user.username = user.username.lower()
+    #         user.save()
 
-            messages.success(request, 'User account was created!')
+    #         messages.success(request, 'User account was created!')
 
-            return Response('User account was created!')
+    #         return Response('User account was created!')
 
-        else:
-            messages.error(request, 'An error has occurred during registration')
+    #     else:
+    #         # print(request.error)
+    #         messages.error(request, 'An error has occurred during registration')
             
-    return Response('An error has occurred during registration')
+    # return Response('An error has occurred during registration')
+    data = request.body
+    data = json.loads(data.decode("utf-8")) 
+    serializer = RegisterSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response('Successfully registered',status=status.HTTP_201_CREATED)
+    return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication, TokenAuthentication])

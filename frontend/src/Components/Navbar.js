@@ -8,29 +8,28 @@ const Navbar = () => {
     <>
     <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a className="nav-link active" aria-current="page" href="/">Home</a>
+    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+        <li className="nav-item">
+        <NavLink className="nav-link active" aria-current="page" to="/" >Home</NavLink>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="/about">About</a>
+          <NavLink className="nav-link" to="/about">About</NavLink>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/contact">Contact</a>
+        <li className="nav-item">
+          <NavLink className="nav-link" to="/contact">Contact</NavLink>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/signin">Login</a>
+        <li className="nav-item">
+          <NavLink className="nav-link" to="/signin">Login</NavLink>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/signup">Signup</a>
+        <li className="nav-item">
+          <NavLink className="nav-link" to="/signup">Signup</NavLink>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/profile">Profile</a>
+        <li className="nav-item">
+          <NavLink className="nav-link" to="/profile">Profile</NavLink>
         </li>
       </ul>
     </div>

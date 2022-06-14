@@ -10,7 +10,7 @@ const Signup = () => {
         <input type="password" placeholder='password'></input>
         <button className='style_button'>SignUp</button>
       </form>
-      </div>
+    </div>
   );
 }
 

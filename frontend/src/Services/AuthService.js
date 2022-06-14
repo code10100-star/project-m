@@ -1,4 +1,4 @@
-import React from 'react'
+// import React from 'react'
 
 export default {
     login(data){
@@ -12,16 +12,13 @@ export default {
           })
           .then(response => response.json())
           .then(response => {
-            // this.setState({
-            //   friends: response
-            // })
-            console.log(response)
+            localStorage.setItem("Token", response.token)
+            // console.log(response)
           })
           .catch(err => { console.log(err); 
           });
     },
     register(data){
-        console.log(data)
         return fetch("http://127.0.0.1:8000/register/", {
             "method": "POST",
             "headers": {

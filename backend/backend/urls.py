@@ -34,7 +34,7 @@ urlpatterns = [
     path('', include(router.urls)),
     # path('',views.getRoutes),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('auth/', obtain_auth_token),
+    path('auth/', views.CustomAuthToken.as_view()),
 
     path('profiles/', views.getProfiles),
     path('profiles/<str:pk>/', views.getProfile),

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AuthService from '../Services/AuthService';
-import '../App.css';
+import './styles/Signup.css';
 
 const Signin = () => {
 
@@ -40,7 +40,14 @@ const Signin = () => {
   }
   return(
         <>
-        <form autoComplete="off" onSubmit={onSubmit}>
+        <div className="Signup">
+          <form className='card'>
+            <input type="text" placeholder='Username'></input>
+            <input type="password" placeholder='password'></input>
+            <button className='style_button'>Login</button>
+          </form>
+        </div>
+        {/* <form autoComplete="off" onSubmit={onSubmit}>
         <div>
           <h1 id='hh'>Hello {newset}</h1>
           <div id='demo'>
@@ -59,7 +66,7 @@ const Signin = () => {
           </div>
           </div>
         </div>
-        </form>
+        </form> */}
         </>
   );
 }

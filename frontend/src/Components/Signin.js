@@ -1,53 +1,64 @@
-import React, { useState } from 'react';
-import AuthService from '../Services/AuthService';
-import './styles/Signup.css';
+import React, { useState } from "react";
+import AuthService from "../Services/AuthService";
+import "./styles/Signup.css";
 
 const Signin = () => {
-
-  const [credentials,setCredentials] = useState({
-    username : "",
-    password : "",
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
   });
 
-  const [newset,setnewset] = useState();
+  const [newset, setnewset] = useState();
 
-  const inChange = (event) =>{
+  const inChange = (event) => {
     const val = event.target.value;
     const name = event.target.name;
 
-    setCredentials((preValue)=>{
-        if(name === "username"){
-          return{
-            username:val,
-            password:preValue.password,
-          };
-        }
-        else if(name === "password"){
-          return{
-            username:preValue.username,
-            password:val,
-          };
-        }
+    setCredentials((preValue) => {
+      if (name === "username") {
+        return {
+          username: val,
+          password: preValue.password,
+        };
+      } else if (name === "password") {
+        return {
+          username: preValue.username,
+          password: val,
+        };
+      }
     });
-  }
-  
-  const onSubmit = (e) =>{
-    e.preventDefault();
-    setnewset(credentials.username+" "+credentials.password);
+  };
 
-    AuthService.login(JSON.stringify(credentials))
-    
-  }
-  return(
-        <>
-        <div className="Signup">
-          <form className='card'>
-            <input type="text" placeholder='Username'></input>
-            <input type="password" placeholder='password'></input>
-            <button className='style_button'>Login</button>
-          </form>
-        </div>
-        {/* <form autoComplete="off" onSubmit={onSubmit}>
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setnewset(credentials.username + " " + credentials.password);
+
+    AuthService.login(JSON.stringify(credentials));
+  };
+  return (
+    <>
+      <div className="Signup">
+        <form className="card">
+          <input
+            type="text"
+            placeholder="Username"
+            name="username"
+            onChange={inChange}
+            value={credentials.username}
+          ></input>
+          <input
+            type="password"
+            placeholder="password"
+            name="password"
+            onChange={inChange}
+            value={credentials.password}
+          ></input>
+          <button className="style_button" onClick={onSubmit}>
+            Login
+          </button>
+        </form>
+      </div>
+      {/* <form autoComplete="off" onSubmit={onSubmit}>
         <div>
           <h1 id='hh'>Hello {newset}</h1>
           <div id='demo'>
@@ -67,8 +78,8 @@ const Signin = () => {
           </div>
         </div>
         </form> */}
-        </>
+    </>
   );
-}
+};
 
-export default Signin
+export default Signin;

@@ -23,8 +23,8 @@ const Profile = () => {
     <div className="modal-body row">
       <div className="col-md-3 ">
         <div className="demo1">
-          <div className='heading'>
-          <h1 >Your Account</h1>
+          <div >
+          <h1 className='heading'>Your Account</h1>
           </div>
         <div className='row'>
         <div className="  btn-group-vertical btn-group-lg col-12" >

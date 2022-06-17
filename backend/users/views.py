@@ -1,13 +1,15 @@
 from email import message
+import string
+from urllib import response
 from django.shortcuts import render
 
 # Create your views here.
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
-from rest_framework import permissions
+from rest_framework import permissions,status
 # from backend.users import serializers
 from users.models import Profile, Customer, Owner
-from users.serializers import ProfileSerializer, UserSerializer, GroupSerializer, CustomerSerializer, OwnerSerializer
+from users.serializers import ProfileSerializer, UserSerializer, GroupSerializer, CustomerSerializer, OwnerSerializer, RegisterSerializer
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -18,9 +20,12 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 
 from .forms import CustomUserCreationForm
-
+import json
+# import status
 
 
 # @api_view(['GET'])
@@ -55,7 +60,7 @@ def getProfiles(request):
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication, TokenAuthentication])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def getProfile(request,pk):
     profile = Profile.objects.get(id=pk)
     serializer = ProfileSerializer(profile, many=False)
@@ -78,44 +83,31 @@ def getRoutes(request):
     return Response(routes)
 
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication, TokenAuthentication])
+# @authentication_classes([SessionAuthentication, BasicAuthentication, TokenAuthentication])
 def example_view(request, format=None):
+
     content = {
         'user': str(request.user),  # `django.contrib.auth.User` instance.
         'auth': str(request.auth),  # None
     }
+
     return Response(content)
 
 @api_view(['POST'])
 def registerUser(request):
-    page = 'register'
-    form = CustomUserCreationForm()
-    # print(request)
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        # print(request.POST['Name'])
-        # print(request.POST['email'])
-        # print(request.POST['username'])
-        # print(request.POST['password1'])
-        # print(request.POST['password2'])
+    data = request.body
+    data = json.loads(data.decode("utf-8")) 
+    serializer = RegisterSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response('Successfully registered',status=status.HTTP_201_CREATED)
+    return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
 
-        if form.is_valid():
-            # print('print something')
-            user = form.save(commit=False)
-            user.username = user.username.lower()
-            user.save()
-
-            messages.success(request, 'User account was created!')
-
-            return Response('User account was created!')
-
-        else:
-            messages.error(request, 'An error has occurred during registration')
-            
-    return Response('An error has occurred during registration')
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, BasicAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def getCustomers(request,pk):
     customers = Customer.objects.filter(owner=pk)
     serializer = CustomerSerializer(customers, many=True)
@@ -129,3 +121,19 @@ def getOwners(request):
 
 
 
+class CustomAuthToken(ObtainAuthToken):
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+
+        response = Response({
+            'token': token.key,
+            'user_id': user.pk,
+            'email': user.email
+        })
+
+        return response

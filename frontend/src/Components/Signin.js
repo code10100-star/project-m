@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AuthService from "../Services/AuthService";
+// import AuthService from "../Services/AuthService";
 import "./styles/Signup.css";
 
 const Signin = () => {
@@ -8,7 +8,7 @@ const Signin = () => {
     password: "",
   });
 
-  const [newset, setnewset] = useState();
+  // const [newset, setnewset] = useState();
 
   const inChange = (event) => {
     const val = event.target.value;
@@ -31,9 +31,9 @@ const Signin = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setnewset(credentials.username + " " + credentials.password);
+    // setnewset(credentials.username + " " + credentials.password);
 
-    AuthService.login(JSON.stringify(credentials));
+    // AuthService.login(JSON.stringify(credentials));
   };
   return (
     <>

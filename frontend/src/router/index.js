@@ -8,11 +8,12 @@ import Contact from "../Components/Contact"
 import Signin from "../Components/Signin"
 import Profile from"../Components/Profile"
 import Signup from '../Components/Signup'
-
+import Navbar from '../Components/Navbar'
 
 const index = () => {
     return (
         <BrowserRouter>
+        <Navbar />
         <Routes>  
         
         <Route path="/" element={<Home />} />

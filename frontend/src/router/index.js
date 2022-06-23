@@ -13,7 +13,9 @@ import Navbar from '../Components/Navbar'
 const index = () => {
     return (
         <BrowserRouter>
-        <Navbar />
+        <Navbar /
+        
+        >
         <Routes>  
         
         <Route path="/" element={<Home />} />

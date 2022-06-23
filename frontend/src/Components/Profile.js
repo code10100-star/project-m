@@ -1,4 +1,5 @@
 import React,{useState} from 'react'
+import "../App.css"
 
 const Profile = () => {
     const [user,setUser]= useState({
@@ -21,35 +22,42 @@ const Profile = () => {
     <>
     <div className="Profile">
     <div className="modal-body row">
-      <div className="col-md-3 ">
+      <div className='col-md-1'></div>
+      <div className="col-md-3">
         <div className="demo1">
-          <div >
-          <h1 className='heading'>Your Account</h1>
+          <div>
+          <h1 className='heading'>Options</h1>
           </div>
-        <div className='row'>
-        <div className="  btn-group-vertical btn-group-lg col-12" >
-                <button type="submit" className="btn btn-primary bn " onClick={Postdata}>
-                  Edit Profile
-                </button>
-                <button type="submit" className="btn btn-primary bn " onClick={Postdata}>
-                  Change Password
-                </button>
-          </div>
-          </div>
-          </div>
+          <hr className="hline"></hr>
+          <div className="d-grid lined">
+            <button type="submit" className="btn btn-lg btn-primary" onClick={Postdata}>
+                Edit Profile
+            </button>
+            </div>
+            <div className='d-grid'>
+            <button type="submit" className="btn btn-lg btn-primary " onClick={Postdata}>
+                Change Password
+             </button>
+             </div>
+             <div className='d-grid'>
+             <button type="submit" className="btn btn-lg btn-primary  " onClick={Postdata}>
+                Logout
+             </button>
+             </div>
+        </div>
       </div>
-    <div className="col-md-8">
+    <div className="col-md-7">
       <div className="demo2">
-    <div className='heading'>
-            <h1>Account Information</h1>
+          <div>
+            <h1 className='heading'>Account Information</h1>
           </div>
             <form>
               <div className="mb-3">
                 <label className="sameline">First Name</label>
                 <input
                   type="text"
-                  className="form-control input-box input"
-                  placeholder="Enter first name"
+                  className="custom form-control  "
+                  placeholder="First name"
                   autoComplete="Off"
                   value={user.fname}
                   name="fname"
@@ -57,11 +65,11 @@ const Profile = () => {
                 />
               </div>
               <div className="mb-3">
-                <label>Last Name</label>
+                <label className="sameline">Last Name</label>
                 <input
                   type="text"
-                  className="form-control input-box"
-                  placeholder="Enter last name"
+                  className="custom form-control "
+                  placeholder="Last name"
                   autoComplete="off"
                   value={user.lname}
                   name="lname"
@@ -69,11 +77,11 @@ const Profile = () => {
                 />
               </div>
               <div className="mb-3">
-                <label>Email</label>
+                <label className="sameline">Email</label>
                 <input
                   type="email"
-                  className="form-control input-box"
-                  placeholder="Enter email"
+                  className="custom form-control"
+                  placeholder="Email"
                   autoComplete="off"
                   value={user.email}
                   name="email"
@@ -81,11 +89,11 @@ const Profile = () => {
                 />
               </div>
               <div className="mb-3">
-                <label>Password</label>
+                <label className="sameline">Password</label>
                 <input
                   type="password"
-                  className="form-control input-box"
-                  placeholder="Enter password"
+                  className="custom form-control "
+                  placeholder="Password"
                   autoComplete="off"
                   value={user.password}
                   name="password"
@@ -93,19 +101,19 @@ const Profile = () => {
                 />
               </div>
               <div className="mb-3">
-                <label>Confirm Password</label>
+                <label className="sameline">Confirm Password</label>
                 <input
                   type="password"
-                  className="form-control input-box"
-                  placeholder="Enter password"
+                  className="custom form-control"
+                  placeholder="Confirm password"
                   autoComplete="off"
                   value={user.cpassword}
                   name="cpassword"
                   onChange={handleInputs}
                 />
               </div>
-              <div className="d-grid">
-                <button type="submit" className="btn btn-primary bn " onClick={Postdata}>
+              <div className="customb">
+                <button type="submit" className="btn btn-primary btn-lg bn" onClick={Postdata}>
                   Submit
                 </button>
           </div>

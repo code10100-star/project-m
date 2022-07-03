@@ -9,6 +9,7 @@ import Signin from "../Components/Signin"
 import Profile from"../Components/Profile"
 import Signup from '../Components/Signup'
 import Navbar from '../Components/Navbar'
+import Profilepass from '../Components/Profilepass'
 
 const index = () => {
     return (
@@ -25,6 +26,9 @@ const index = () => {
         <Route path="/signin" element={<Signin />} />
         <Route path="/profile" element={<Profile />} />
 
+        </Routes>
+        <Routes>
+          <Route path="/profilepass" element={<Profilepass/>}/>
         </Routes>
         </BrowserRouter>
 

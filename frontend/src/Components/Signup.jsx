@@ -72,26 +72,30 @@ const Signup = () => {
   return (
     <div className="Signup">
       <form className="card">
-        <input type="text" name = 'Name' onChange={inChange} value={credentials.Name} placeholder="Name"></input>
+        <input className="input-box" type="text" name = 'Name' onChange={inChange} value={credentials.Name} placeholder="Name"></input>
         <input
+          className="input-box"
           type="text"
           value={credentials.username}
           placeholder="Username"
           name = 'username' onChange={inChange}
         ></input>
         <input
+          className="input-box"
           type="email"
           value={credentials.email}
           placeholder="Email"
           name = 'email' onChange={inChange}
         ></input>
         <input
+          className="input-box"
           type="password"
           value={credentials.password1}
           placeholder="password"
           name = 'password1' onChange={inChange}
         ></input>
         <input
+          className="input-box"
           type="password"
           value={credentials.password2}
           placeholder="confirm your password"

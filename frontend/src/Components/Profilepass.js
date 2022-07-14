@@ -2,10 +2,10 @@ import React,{useState} from 'react'
 import "../App.css"
 import { NavLink } from 'react-router-dom'
 
-const Profile = () => {
+const Profilepass = () => {
 
     const [user,setUser]= useState({
-        fname:"",lname:"",email:"",password:"",cpassword:""
+        opassword:"",password:"",cpassword:""
     });
 
     let name, value;
@@ -16,12 +16,12 @@ const Profile = () => {
       setUser({ ...user, [name]: value });
     }
 
-    let url='/profile';
+    let url='/profilepass';
 
     const Postdata = async (e) => {
       e.preventDefault();
 
-    const {fname,lname,email,password,cpassword}=user;
+    const{opassword,password,cpassword}=user;
 
     const res = await fetch(url, {
       method: "POST",
@@ -29,7 +29,7 @@ const Profile = () => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        fname,lname,email,password,cpassword
+        opassword,password,cpassword
       })
     });
 
@@ -78,50 +78,26 @@ const Profile = () => {
              </div>
         </div>
       </div>
-    <div className="col-md-7">
+    <div className="col-md-6">
       <div className="demo2">
           <div>
-            <h1 className='heading'>Account Information</h1>
+            <h1 className='heading'>Change Password</h1>
           </div>
             <form>
-              <div className="mb-3">
-                <label className="sameline">First Name</label>
+            <div className="mb-3">
+                <label className="sameline">Old Password</label>
                 <input
-                  type="text"
-                  className="custom form-control  "
-                  placeholder="First name"
-                  autoComplete="off"
-                  value={user.fname}
-                  name="fname"
-                  onChange={handleInputs}
-                />
-              </div>
-              <div className="mb-3">
-                <label className="sameline">Last Name</label>
-                <input
-                  type="text"
+                  type="password"
                   className="custom form-control "
-                  placeholder="Last name"
+                  placeholder="Password"
                   autoComplete="new-password"
-                  value={user.lname}
-                  name="lname"
+                  value={user.password}
+                  name="opassword"
                   onChange={handleInputs}
                 />
-              </div>
+              </div> 
               <div className="mb-3">
-                <label className="sameline">Email</label>
-                <input
-                  type="email"
-                  className="custom form-control"
-                  placeholder="Email"
-                  autoComplete="new-password"
-                  value={user.email}
-                  name="email"
-                  onChange={handleInputs}
-                />
-              </div>
-              <div className="mb-3">
-                <label className="sameline">Password</label>
+                <label className="sameline">New Password</label>
                 <input
                   type="password"
                   className="custom form-control "
@@ -158,4 +134,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default Profilepass

@@ -40,6 +40,7 @@ const Signin = () => {
       <div className="Signup">
         <form className="card">
           <input
+            className="input-box"
             type="text"
             placeholder="Username"
             name="username"
@@ -47,6 +48,7 @@ const Signin = () => {
             value={credentials.username}
           ></input>
           <input
+            className="input-box"
             type="password"
             placeholder="password"
             name="password"

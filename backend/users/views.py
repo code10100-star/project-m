@@ -1,3 +1,4 @@
+# from asyncio.windows_events import NULL
 from email import message
 import string
 from urllib import response
@@ -137,3 +138,21 @@ class CustomAuthToken(ObtainAuthToken):
         })
 
         return response
+
+def getType(pk):
+    owner = Owner.objects.get(User = pk)
+    if owner.exists():
+
+        return {"owner":owner}
+    customer = Customer.objects.get(User = pk)
+
+    if customer.exists():
+        return {"customer":customer}
+
+    return "none"
+
+
+def login(request,pk):
+    user = getType(pk)
+    if user.key == "owner":
+        return user

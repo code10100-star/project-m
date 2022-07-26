@@ -1,4 +1,5 @@
 # from asyncio.windows_events import NULL
+# from asyncio.windows_events import NULL
 from email import message
 import string
 from urllib import response
@@ -9,7 +10,7 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions,status
 # from backend.users import serializers
-from users.models import Profile, Customer, Owner
+from users.models import Profile, Customer, Owner, orderDetails
 from users.serializers import ProfileSerializer, UserSerializer, GroupSerializer, CustomerSerializer, OwnerSerializer, RegisterSerializer
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
@@ -36,7 +37,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -97,11 +98,32 @@ def example_view(request, format=None):
 @api_view(['POST'])
 def registerUser(request):
     data = request.body
-    data = json.loads(data.decode("utf-8")) 
+    data = json.loads(data.decode("utf-8"))
+    role = data['Role']
+    data.pop("Role")
+
     serializer = RegisterSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
-        return Response('Successfully registered',status=status.HTTP_201_CREATED)
+        user = User.objects.get(username=data['username'])
+        data.pop("password1")
+        data.pop("password2")
+        data['user']= user.id
+        if(role == 'Customer'):
+            serializer2 = CustomerSerializer(data = data)
+            if(serializer2.is_valid()):
+                serializer2.save()
+                return Response('Successfully registered',status=status.HTTP_201_CREATED)
+            else:
+                print(serializer2.errors)
+                Response(serializer2.errors,status=status.HTTP_400_BAD_REQUEST)
+        elif role=="Owner":
+            serializer2 = OwnerSerializer(data = data)
+            if(serializer2.is_valid()):
+                serializer2.save()
+                return Response('Successfully registered',status=status.HTTP_201_CREATED)
+            else: Response(serializer2.errors,status=status.HTTP_400_BAD_REQUEST)
+
     return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
 
@@ -131,28 +153,63 @@ class CustomAuthToken(ObtainAuthToken):
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
 
+        owner = Owner.objects.filter(user=user.id)
+        customer = Customer.objects.filter(user=user.id)
+
+        role = 'user'
+        if owner.exists():
+            role = 'owner'
+        elif customer.exists():
+            role = 'customer'
+
         response = Response({
             'token': token.key,
             'user_id': user.pk,
-            'email': user.email
-        })
+            'email': user.email,
+            'Role': role
+        },status=status.HTTP_200_OK)
 
         return response
 
-def getType(pk):
-    owner = Owner.objects.get(User = pk)
-    if owner.exists():
+# def getType(pk):
+#     owner = Owner.objects.get(User = pk)
+#     if owner.exists():
 
-        return {"owner":owner}
-    customer = Customer.objects.get(User = pk)
+#         return {"owner":owner}
+#     customer = Customer.objects.get(User = pk)
 
-    if customer.exists():
-        return {"customer":customer}
+#     if customer.exists():
+#         return {"customer":customer}
 
-    return "none"
+#     return "none"
 
 
-def login(request,pk):
-    user = getType(pk)
-    if user.key == "owner":
-        return user
+# def login(request,pk):
+#     user = getType(pk)
+#     if user.key == "owner":
+#         return user
+
+# testing remaining
+def getOrderDetails(request,pk):
+    orders = orderDetails.objects.filter(customer=pk)
+    serializer = CustomerSerializer(orders, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def getCustomerProfile(request):
+    # profile = request.user.customer
+    # print(request.user.id)
+    profile = Customer.objects.get(user=request.user.id)
+    serializer = ProfileSerializer(profile, many=False)
+    print(profile)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def getOwnerProfile(request):
+    profile = Owner.objects.get(user=request.user.id)
+    serializer = ProfileSerializer(profile, many=False)
+    return Response(serializer.data)

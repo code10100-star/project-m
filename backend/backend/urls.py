@@ -37,12 +37,15 @@ urlpatterns = [
     path('auth/', views.CustomAuthToken.as_view()),
 
     path('profiles/', views.getProfiles),
-    path('profiles/<str:pk>/', views.getProfile),
+    path('ownerProfile/', views.getOwnerProfile),
+    path('customerProfile/', views.getCustomerProfile),
     path('example/', views.example_view),
     # path('login/', views.loginUser),
     path('register/', views.registerUser, name="register"),
     path('owners/', views.getOwners, name="owners"),
     path('customers/<str:pk>/', views.getCustomers, name="customers"),
+    path('getOrderDetails/', views.getOwners, name="owners"),
+
 
 
     

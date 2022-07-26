@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import AuthService from "../Services/AuthService";
+import AuthService from "../Services/AuthService";
 import "./styles/Signup.css";
 
 const Signin = () => {
@@ -33,7 +33,7 @@ const Signin = () => {
     e.preventDefault();
     // setnewset(credentials.username + " " + credentials.password);
 
-    // AuthService.login(JSON.stringify(credentials));
+    AuthService.login(JSON.stringify(credentials));
   };
   return (
     <>

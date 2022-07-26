@@ -4,13 +4,13 @@ from rest_framework import status
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 
-from users.models import Owner, Profile, Customer
+from users.models import Owner, Profile, Customer, orderDetails
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['url', 'username', 'email', 'groups']
+        fields = '__all__'
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
@@ -35,16 +35,16 @@ class OwnerSerializer(serializers.ModelSerializer):
 
 #Serializer to Register User
 class RegisterSerializer(serializers.ModelSerializer):
-  Name = serializers.CharField(write_only=True, required=True)
+  name = serializers.CharField(write_only=True, required=True)
   email = serializers.EmailField(required=True, validators=[UniqueValidator(queryset=User.objects.all())])
   password1 = serializers.CharField(write_only=True, required=True, validators=[validate_password])
   password2 = serializers.CharField(write_only=True, required=True)
   class Meta:
     model = User
-    fields = ('username', 'password1', 'password2', 'email', 'Name')
+    fields = ('username', 'password1', 'password2', 'email', 'name')
 
     extra_kwargs = {
-      'Name': {'required': True},
+      'name': {'required': True},
     }
   def validate(self, attrs):
     if attrs['password1'] != attrs['password2']:
@@ -56,8 +56,13 @@ class RegisterSerializer(serializers.ModelSerializer):
     user = User.objects.create(
       username=validated_data['username'],
       email=validated_data['email'],
-      first_name=validated_data['Name'],
+      first_name=validated_data['name'],
     )
     user.set_password(validated_data['password1'])
     user.save()
     return user
+
+class OrderDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = orderDetails
+        fields = '__all__'

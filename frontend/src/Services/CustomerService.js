@@ -2,7 +2,7 @@ import React from 'react'
 
 export default {
     getProfile(id){
-        return fetch(`http://127.0.0.1:8000/ownerProfile/`, {
+        return fetch(`http://127.0.0.1:8000/customerProfile/`, {
             "method": "GET",
             "headers": {
               "Authorization":  `Token ${localStorage.Token}`,
